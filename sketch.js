@@ -14,7 +14,9 @@ function draw() {
   background(255,255,255);
   ground.display();
   robot.groundy = ground.Y(robot.x);
-  if ((((PI/2)-0.1)<ground.angle(robot.x)<((PI/2)+0.1)) && !robot.jump) {
+  console.log(ground.angle(robot.x), PI/2);
+  //TODO: fix this mess
+  if (!(((PI/2)-0.01)<ground.angle(robot.x)<((PI/2)+0.01)) && !robot.jump) {
     robot.y = robot.groundy;
   }
   robot.display();
@@ -84,7 +86,7 @@ class Ground {
   }
 
   angle(x) {
-    return acos(0.1/(this.slope(x)+this.slope(x+0.1)));
+    return acos(5/(this.slope(x+5)-this.slope(x)));
   }
 
   display() {
