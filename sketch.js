@@ -14,10 +14,11 @@ function draw() {
   background(255,255,255);
   ground.display();
   robot.groundy = ground.Y(robot.x);
-  console.log(ground.angle(robot.x), PI/2);
-  //TODO: fix this mess
-  if (!(((PI/2)-0.01)<ground.angle(robot.x)<((PI/2)+0.01)) && !robot.jump) {
+  if ((ground.angle(robot.x)<(PI/2)-0.5) && !robot.jump) {
     robot.y = robot.groundy;
+  } else {
+    //TODO: stop
+    console.log("stop");
   }
   robot.display();
 }
@@ -77,16 +78,16 @@ function moveRobot() {
 }
 
 class Ground {
-  Y(x, sign=1) {
-    return (500 + 40 * sin(x/100));
+  Y(x) {
+    return (500 + 40 * sin(x/50));
   }
 
   slope(x) {
-    return ((40/100) * cos(x/100));
+    return (this.Y(x-0.001)-this.Y(x))/0.001;
   }
 
   angle(x) {
-    return acos(5/(this.slope(x+5)-this.slope(x)));
+    return atan(this.slope(x));
   }
 
   display() {
