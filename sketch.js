@@ -6,15 +6,15 @@ function setup() {
   let robotImgs = [img1, img3, img2, img3, img4]
   let randNums = (Array(4).fill()).map(_ => random(10,50)); 
   createCanvas(innerWidth, innerHeight);
+  frameRate(30);
   robot = new Robot(0, 400+135, robotImgs);
   ground = new Ground(randNums);
 }
 
 function draw() {
-  frameRate(30);
   background(255,255,255);
   ground.display();
-  robot.groundy = ground.Y(robot.x);
+  robot.groundy = ground.groundPoints[robot.x];
   if ((ground.angle(robot.x)<(PI/2)-0.5) && !robot.jump) {
     robot.y = robot.groundy;
   } else {
@@ -24,86 +24,3 @@ function draw() {
   robot.display();
 }
 
-class Robot {
-  constructor(x, y, imgs) {
-    this.x = x;
-    this.y = y;
-    this.groundy = y;
-    this.imgs = imgs;
-    this.imgNum = 0;
-    this.velocity = -40;
-    this.gravity = 4;
-    this.jump = false;
-  }
-
-  moveX(sign=1) {
-    this.x += 10*sign;
-    if (this.x%40 == 0) {
-      this.imgNum = (this.imgNum+1)%(this.imgs.length-1);
-    }
-  }
-
-  moveY() {
-    this.velocity += this.gravity;
-    this.y += this.velocity;
-    if (this.y > this.groundy) {
-      this.jump = false;
-      this.y = this.groundy;
-      this.velocity = -40;
-      this.imgNum = 1;
-    }
-  }
-
-  display() {
-    if (this.jump) {
-      this.imgNum = 4;
-    }
-    image(this.imgs[this.imgNum], this.x-50, this.y-135);
-    moveRobot();
-  }
-}
-
-function moveRobot() {
-  if (keyIsDown(RIGHT_ARROW)) {
-    robot.moveX();
-  }
-
-  if (keyIsDown(LEFT_ARROW)) {
-    robot.moveX(sign=-1);
-  }
-
-  if (keyIsDown(UP_ARROW) || robot.jump) {
-    robot.jump = true;
-    robot.moveY();
-  }
-}
-
-class Ground {
-  constructor(points) {
-    this.points = points;
-  }
-
-  Y(x) {
-    let func = 0;
-    for (let i=0;  i < this.points.length; i++) {
-      func += this.points[i] * sin(x/(this.points[i]*5));
-    }
-    return (500 + func);
-  }
-
-  slope(x) {
-    return (this.Y(x-0.001)-this.Y(x))/0.001;
-  }
-
-  angle(x) {
-    return atan(this.slope(x));
-  }
-
-  display() {
-    beginShape();
-    for (let i = 0; i < innerWidth; i++) {
-      curveVertex(i, this.Y(i));
-    }
-    endShape();
-  }
-}
