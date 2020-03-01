@@ -3,11 +3,19 @@ class Robot {
     this.x = x;
     this.y = y;
     this.groundy = y;
-    this.imgs = imgs;
+    this.imgs = this.images();
     this.imgNum = 0;
     this.velocity = -40;
     this.gravity = 4;
     this.jump = false;
+  }
+
+  images() {
+    let img1 = loadImage('images/Robot_1.png');
+    let img2 = loadImage('images/Robot_2.png');
+    let img3 = loadImage('images/Robot_3.png');
+    let img4 = loadImage('images/Robot_4.png');
+    return [img1, img3, img2, img3, img4];
   }
 
   moveX(sign) {

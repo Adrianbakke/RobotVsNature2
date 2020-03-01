@@ -1,8 +1,7 @@
 class Ground {
-  constructor(points) {
-    this.points = points;
+  constructor() {
+    this.points = (Array(4).fill()).map(_ => random(10,50));
     this.groundPoints = [...Array(innerWidth).keys()].map(x => this.Y(x));
-    console.log(this.groundPoints);
   }
 
   Y(x) {
