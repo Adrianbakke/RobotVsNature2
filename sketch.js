@@ -4,9 +4,10 @@ function setup() {
   let img3 = loadImage('images/Robot_3.png'); // Load the image
   let img4 = loadImage('images/Robot_4.png'); // Load the image
   let robotImgs = [img1, img3, img2, img3, img4]
+  let randNums = (Array(4).fill()).map(_ => random(10,50)); 
   createCanvas(innerWidth, innerHeight);
   robot = new Robot(0, 400+135, robotImgs);
-  ground = new Ground();
+  ground = new Ground(randNums);
 }
 
 function draw() {
@@ -43,7 +44,7 @@ class Robot {
   }
 
   moveY() {
-    this.velocity += this.gravity; 
+    this.velocity += this.gravity;
     this.y += this.velocity;
     if (this.y > this.groundy) {
       this.jump = false;
@@ -78,8 +79,16 @@ function moveRobot() {
 }
 
 class Ground {
+  constructor(points) {
+    this.points = points;
+  }
+
   Y(x) {
-    return (500 + 40 * sin(x/50));
+    let func = 0;
+    for (let i=0;  i < this.points.length; i++) {
+      func += this.points[i] * sin(x/(this.points[i]*5));
+    }
+    return (500 + func);
   }
 
   slope(x) {
@@ -92,7 +101,7 @@ class Ground {
 
   display() {
     beginShape();
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < innerWidth; i++) {
       curveVertex(i, this.Y(i));
     }
     endShape();
