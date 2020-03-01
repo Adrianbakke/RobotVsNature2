@@ -1,13 +1,15 @@
 class Robot {
-  constructor(x, y, imgs) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
     this.groundy = y;
     this.imgs = this.images();
     this.imgNum = 0;
-    this.velocity = -40;
-    this.gravity = 4;
+    this.velocity = velocity;
+    this.gravity = gravity;
     this.jump = false;
+    this.height = 135;
+    this.width = 100;
   }
 
   images() {
@@ -19,19 +21,19 @@ class Robot {
   }
 
   moveX(sign) {
-    this.x += 10*sign;
-    if (this.x%40 == 0) {
+    this.x += robotSpeed*sign;
+    if (this.x%changeImage == 0) {
       this.imgNum = (this.imgNum+1)%(this.imgs.length-1);
     }
   }
 
   moveY() {
-    this.velocity += this.gravity;
+    this.velocity += gravity;
     this.y += this.velocity;
     if (this.y > this.groundy) {
       this.jump = false;
       this.y = this.groundy;
-      this.velocity = -40;
+      this.velocity = velocity;
       this.imgNum = 1;
     }
   }
@@ -40,7 +42,7 @@ class Robot {
     if (this.jump) {
       this.imgNum = 4;
     }
-    image(this.imgs[this.imgNum], this.x-50, this.y-135);
+    image(this.imgs[this.imgNum], this.x-(this.width/2), this.y-this.height);
     this.moveRobot();
   }
 
@@ -58,5 +60,4 @@ class Robot {
       this.moveY();
     }
   }
-
 }

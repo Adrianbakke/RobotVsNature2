@@ -1,15 +1,17 @@
 class Ground {
   constructor() {
-    this.points = (Array(4).fill()).map(_ => random(10,50));
+    this.points = (Array(10).fill()).map(_ => random(10,60));
     this.groundPoints = [...Array(innerWidth).keys()].map(x => this.Y(x));
   }
 
   Y(x) {
     let func = 0;
+    let sign = 1;
     for (let i=0; i < this.points.length; i++) {
-      func += this.points[i] * sin(x/(this.points[i]*5));
+        sign *= -1;
+      func += sign * this.points[i] * sin(x/(this.points[i]*5));
     }
-    return (500 + func);
+    return (baseline + func);
   }
 
   slope(x) {
