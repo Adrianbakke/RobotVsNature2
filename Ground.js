@@ -8,8 +8,8 @@ class Ground {
   Y(x) {
     let func = 0;
     let sign = 1;
-    for (let i=0; i < this.points.length; i++) {
-        sign *= -1;
+    for (let i=0; i<this.points.length; i++) {
+      sign *= -1;
       func += sign * this.points[i] * sin(x/(this.points[i]*5));
     }
     return (baseline + func);
@@ -40,7 +40,7 @@ class Ground {
 
   display() {
     beginShape();
-    for (let i = 0; i < innerWidth; i++) {
+    for (let i = 0; i<innerWidth; i++) {
       curveVertex(i, this.groundPoints[i]);
     }
     endShape();

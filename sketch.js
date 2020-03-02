@@ -25,8 +25,10 @@ function robotGroundLogic() {
   } else {
     console.log("stop");
   }
-  if (robot.posX > 1000) {
+  if (robot.x>1000 && robot.x<4000)  {
     robot.groundMove = true;
+  } else {
+    robot.groundMove = false;
   }
 }
 

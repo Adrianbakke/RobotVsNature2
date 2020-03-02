@@ -7,7 +7,6 @@ class Robot {
     this.imgs = this.images();
     this.imgNum = 0;
     this.velocity = velocity;
-    this.gravity = gravity;
     this.jump = false;
     this.height = 135;
     this.width = 100;
@@ -25,7 +24,7 @@ class Robot {
   moveX(sign) {
     this.x += robotSpeed*sign;
     if (!this.groundMove) {
-      this.posX = this.x;
+      this.posX += robotSpeed*sign;
     } else {
       ground.moveX(sign);
     }
