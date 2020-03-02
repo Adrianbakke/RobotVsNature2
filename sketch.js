@@ -19,12 +19,14 @@ function draw() {
 }
 
 function robotGroundLogic() {
-  robot.groundy = ground.groundPoints[robot.x];
-  if ((ground.angle(robot.x)<(PI/2)-0.5) && !robot.jump) {
+  robot.groundy = ground.groundPoints[robot.posX];
+  if ((ground.angle(robot.posX)<(PI/2)-0.5) && !robot.jump) {
     robot.y = robot.groundy;
   } else {
-    //TODO: stop
     console.log("stop");
+  }
+  if (robot.posX > 1000) {
+    robot.groundMove = true;
   }
 }
 

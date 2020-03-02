@@ -1,6 +1,7 @@
 class Robot {
   constructor(x, y) {
     this.x = x;
+    this.posX = x;
     this.y = y;
     this.groundy = y;
     this.imgs = this.images();
@@ -10,6 +11,7 @@ class Robot {
     this.jump = false;
     this.height = 135;
     this.width = 100;
+    this.groundMove = false;
   }
 
   images() {
@@ -22,6 +24,11 @@ class Robot {
 
   moveX(sign) {
     this.x += robotSpeed*sign;
+    if (!this.groundMove) {
+      this.posX = this.x;
+    } else {
+      ground.moveX(sign);
+    }
     if (this.x%changeImage == 0) {
       this.imgNum = (this.imgNum+1)%(this.imgs.length-1);
     }
@@ -42,7 +49,7 @@ class Robot {
     if (this.jump) {
       this.imgNum = 4;
     }
-    image(this.imgs[this.imgNum], this.x-(this.width/2), this.y-this.height);
+    image(this.imgs[this.imgNum], this.posX-(this.width/2), this.y-this.height);
     this.moveRobot();
   }
 

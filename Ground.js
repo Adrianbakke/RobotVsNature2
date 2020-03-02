@@ -2,6 +2,7 @@ class Ground {
   constructor() {
     this.points = (Array(10).fill()).map(_ => random(10,60));
     this.groundPoints = [...Array(innerWidth).keys()].map(x => this.Y(x));
+    this.lengthGround = this.groundPoints.length;
   }
 
   Y(x) {
@@ -20,6 +21,21 @@ class Ground {
 
   angle(x) {
     return atan(this.slope(x));
+  }
+  
+  moveX(sign) {
+    if (sign>0) {
+      this.groundPoints = (this.groundPoints
+                           .slice(robotSpeed)
+                           .concat(([...Array(robotSpeed).keys()]
+                           .map(x => this.Y(x+this.lengthGround)))));
+      this.lengthGround += robotSpeed; 
+    } else {
+      this.groundPoints = (([...Array(robotSpeed).keys()]
+                            .map(x => this.Y(x-(this.groundPoints.length-this.lengthGround)-robotSpeed)))
+                            .concat(this.groundPoints.slice(0,-1*robotSpeed)));
+      this.lengthGround -= robotSpeed; 
+    }
   }
 
   display() {
