@@ -1,8 +1,8 @@
 class Ground {
   constructor() {
     this.points = (Array(10).fill()).map(_ => random(10,60));
-    this.groundPoints = [...Array(innerWidth).keys()].map(x => this.Y(x));
-    this.lengthGround = this.groundPoints.length;
+    this.groundY = [...Array(innerWidth).keys()].map(x => this.Y(x));
+    this.lengthGround = this.groundY.length;
   }
 
   Y(x) {
@@ -25,15 +25,15 @@ class Ground {
   
   moveX(sign) {
     if (sign>0) {
-      this.groundPoints = (this.groundPoints
+      this.groundY = (this.groundY
                            .slice(robotSpeed)
                            .concat(([...Array(robotSpeed).keys()]
                            .map(x => this.Y(x+this.lengthGround)))));
       this.lengthGround += robotSpeed; 
     } else {
-      this.groundPoints = (([...Array(robotSpeed).keys()]
-                            .map(x => this.Y(x-(this.groundPoints.length-this.lengthGround)-robotSpeed)))
-                            .concat(this.groundPoints.slice(0,-1*robotSpeed)));
+      this.groundY = (([...Array(robotSpeed).keys()]
+                            .map(x => this.Y(x-(this.groundY.length-this.lengthGround)-robotSpeed)))
+                            .concat(this.groundY.slice(0,-1*robotSpeed)));
       this.lengthGround -= robotSpeed; 
     }
   }
@@ -41,7 +41,7 @@ class Ground {
   display() {
     beginShape();
     for (let i = 0; i<innerWidth; i++) {
-      curveVertex(i, this.groundPoints[i]);
+      curveVertex(i, this.groundY[i]);
     }
     endShape();
   }

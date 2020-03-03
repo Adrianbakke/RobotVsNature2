@@ -7,26 +7,29 @@ const robotSpeed = 20;
 function setup() {
   createCanvas(innerWidth, innerHeight);
   frameRate(30);
-  robot = new Robot(0, 535);
+  robot = new Robot(100, 535);
   ground = new Ground();
+  sheep = new Sheep(1500);
 }
 
 function draw() {
   background(255,255,255);
-  robotGroundLogic();
+  logic();
   ground.display();
   robot.display();
+  sheep.display();
 }
 
-function robotGroundLogic() {
-  robot.groundy = ground.groundPoints[robot.posX];
+function logic() {
+  robot.groundY = ground.groundY[robot.posX];
   if ((ground.angle(robot.posX)<(PI/2)-0.5) && !robot.jump) {
-    robot.y = robot.groundy;
+    robot.posY = robot.groundY;
   } else {
     console.log("stop");
   }
-  if (robot.x>1000 && robot.x<4000)  {
+  if (robot.screenScroll>1000 && robot.screenScroll<4000)  {
     robot.groundMove = true;
+    sheep.displacement = robot.screenScroll-1000;
   } else {
     robot.groundMove = false;
   }
