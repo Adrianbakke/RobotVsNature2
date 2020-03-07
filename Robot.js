@@ -1,5 +1,7 @@
 class Robot {
   constructor(x, y) {
+    this.height = 135;
+    this.width = 100;
     this.screenScroll = x;
     this.posX = x;
     this.posY = y;
@@ -8,8 +10,6 @@ class Robot {
     this.imgNum = 0;
     this.velocity = velocity;
     this.jump = false;
-    this.height = 135;
-    this.width = 100;
     this.groundMove = false;
   }
 
@@ -44,11 +44,19 @@ class Robot {
     }
   }
 
+  imgPosX() {
+    return this.posX - (this.width/2)
+  }
+
+  imgPosY() {
+    return this.posY - (this.height)
+  }
+
   display() {
     if (this.jump) {
       this.imgNum = 4;
     }
-    image(this.imgs[this.imgNum], this.posX-(this.width/2), this.posY-this.height);
+    image(this.imgs[this.imgNum], this.imgPosX(), this.imgPosY());
     this.moveRobot();
   }
 
@@ -64,6 +72,22 @@ class Robot {
     if (keyIsDown(UP_ARROW) || this.jump) {
       this.jump = true;
       this.moveY();
+    }
+  }
+
+  boundingBox(other) {
+    let oRSide = other.imgPosX() + other.width; //rightside
+    let oBSide = other.imgPosY() + other.height; //bottomside
+    let rRSide = this.imgPosX()+this.width;
+    let rBSide = this.imgPosY()+this.height;
+    let rSideGT = rRSide > other.imgPosX(); //robot rightside GT other leftside
+    let lSideLT = this.imgPosX() < oRSide; //robot leftside LT other rightside
+    let tSideGT = rBSide > other.imgPosY(); //robot bottom greater than other top 
+    let dSideLT = this.imgPosY() < oBSide; //robot top less than other bottom
+    if (rSideGT && lSideLT && tSideGT && dSideLT) {
+      console.log(true);
+    } else {
+      console.log(false);
     }
   }
 }

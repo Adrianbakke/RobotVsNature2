@@ -8,8 +8,16 @@ class Sheep {
     this.displacement = 0;
   }
 
+  imgPosX() {
+    return this.posX-this.displacement;
+  }
+  
+  imgPosY() {
+    return this.posY-this.height;
+  }
+
   display() {
-    image(this.img, this.posX-(this.width/2)-this.displacement, this.posY-this.height)
+    image(this.img, this.imgPosX(), this.imgPosY());
   }
 
 }
